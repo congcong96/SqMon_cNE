@@ -92,21 +92,21 @@ for ii = 1:length(files)
             exp_site_nedata = ne_create_exp_site_nedata_file(outfile);
             
             %% get confidence interval for IC weights
-%             CI = ne_calc_ICA_threshold(exp_site_nedata,'circular', 100, 'stdev', 1.5); %threshold currently at 1.5 stdev
-%             exp_site_nedata.nedata.CI = CI;
+            CI = ne_calc_ICA_threshold(exp_site_nedata,'circular', 100, 'stdev', 1.5); %threshold currently at 1.5 stdev
+            exp_site_nedata.nedata.CI = CI;
             
             %% get membr neuron ids
-%             NEmembers = ne_identify_NEmembers(exp_site_nedata.nedata.Patterns, exp_site_nedata.nedata.CI);
-%             exp_site_nedata.nedata.NEmembers_2018 = NEmembers;
-%             
-%             %
-%             if isfield(exp_site_nedata.nedata, 'NEthresh')
-%                 fprintf('\ncNE activity thresh for %s already calculated\n', outfile);
-%             else
-%                 [thresh, alpha] = ne_calc_NE_act_thresholds(exp_site_nedata,'circular', 50, 99:0.1:99.9);
-%                 exp_site_nedata.nedata.NEthresh_2018 = thresh;
-%                 exp_site_nedata.nedata.NEthresh_alpha_2018 = alpha;
-%             end
+            NEmembers = ne_identify_NEmembers(exp_site_nedata.nedata.Patterns, exp_site_nedata.nedata.CI);
+            exp_site_nedata.nedata.NEmembers_2018 = NEmembers;
+            
+            %
+            if isfield(exp_site_nedata.nedata, 'NEthresh')
+                fprintf('\ncNE activity thresh for %s already calculated\n', outfile);
+            else
+                [thresh, alpha] = ne_calc_NE_act_thresholds(exp_site_nedata,'circular', 50, 99:0.1:99.9);
+                exp_site_nedata.nedata.NEthresh_2018 = thresh;
+                exp_site_nedata.nedata.NEthresh_alpha_2018 = alpha;
+            end
             
             close all
             save(outfile,'exp_site_nedata');      
